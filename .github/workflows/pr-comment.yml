@@ -1,0 +1,22 @@
+name: PR Comment Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  comment_on_pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send PR data to FastAPI
+        run: |
+          curl -X POST "https://your-fastapi-url.com/review-pr" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "repository": "${{ github.repository }}",
+              "pr_number": "${{ github.event.pull_request.number }}",
+              "head_branch": "${{ github.head_ref }}",
+              "base_branch": "${{ github.base_ref }}"
+            }'
