@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Send PR data
         run: |
-          curl -X POST "{{ secrets.LAMBDA_ENDPOINT }}" \
+          curl -X POST "${{ secrets.LAMBDA_ENDPOINT }}" \
             -H "Content-Type: application/json" \
             -d '{
               "owner": "${{ github.event.repository.owner.login }}",
