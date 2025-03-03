@@ -1,0 +1,22 @@
+name: PR Comment Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  code_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send PR data
+        run: |
+          curl -X POST "${{ secrets.LAMBDA_ENDPOINT }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "owner": "${{ github.event.repository.owner.login }}",
+              "repo": "${{ github.event.repository.name }}",
+              "pr_number": "${{ github.event.pull_request.number }}",
+              "head_branch": "${{ github.head_ref }}",
+              "base_branch": "${{ github.base_ref }}"
+            }'
