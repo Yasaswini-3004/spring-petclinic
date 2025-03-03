@@ -5,17 +5,17 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  comment_on_pr:
+  code_review:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send PR data to FastAPI
+      - name: Send PR data
         run: |
-          curl -X POST "https://your-fastapi-url.com/review-pr" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          curl -X POST "{{ secrets.LAMBDA_ENDPOINT }}" \
             -H "Content-Type: application/json" \
             -d '{
-              "repository": "${{ github.repository }}",
+              "owner": "${{ github.event.repository.owner.login }}",
+              "repo": "${{ github.event.repository.name }}",
               "pr_number": "${{ github.event.pull_request.number }}",
               "head_branch": "${{ github.head_ref }}",
               "base_branch": "${{ github.base_ref }}"
