@@ -74,6 +74,11 @@ class OwnerController {
         return "redirect:/owners/" + owner.getId();
     }
 
+	@GetMapping("/owners/new")
+public String initCreationForm() {
+    return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+}
+
     @GetMapping("/owners/find")
     public String initFindForm() {
         return "owners/findOwners";
